@@ -4,6 +4,7 @@ import type { EChartsOption } from 'echarts'
 
 import ChartBox from '@/components/ChartBox.vue'
 import DataCard from '@/components/DataCard.vue'
+import HubOverviewChart from '@/components/HubOverviewChart.vue'
 import PanelBox from '@/components/PanelBox.vue'
 import RealtimeList from '@/components/RealtimeList.vue'
 import ScreenContainer from '@/components/ScreenContainer.vue'
@@ -13,6 +14,7 @@ import {
   coreMetrics,
   devicePie,
   efficiencyBars,
+  hubNodes,
   realtimeEvents,
   trendDays,
   trendSeries,
@@ -32,16 +34,21 @@ const displayMetrics = computed(() =>
 
 const trendOption = computed<EChartsOption>(() => ({
   grid: { left: 32, right: 18, top: 26, bottom: 28 },
-  tooltip: { trigger: 'axis' },
+  tooltip: {
+    trigger: 'axis',
+    backgroundColor: 'rgba(7, 24, 42, 0.94)',
+    borderColor: 'rgba(85, 230, 255, 0.45)',
+    textStyle: { color: '#dffbff' },
+  },
   xAxis: {
     type: 'category',
     data: trendDays,
-    axisLine: { lineStyle: { color: '#27516c' } },
+    axisLine: { lineStyle: { color: '#2b6381' } },
     axisLabel: { color: '#8fb9cf' },
   },
   yAxis: {
     type: 'value',
-    splitLine: { lineStyle: { color: 'rgba(77, 164, 207, 0.12)' } },
+    splitLine: { lineStyle: { color: 'rgba(85, 230, 255, 0.12)' } },
     axisLabel: { color: '#8fb9cf' },
   },
   series: [
@@ -50,7 +57,7 @@ const trendOption = computed<EChartsOption>(() => ({
       type: 'line',
       smooth: true,
       symbolSize: 8,
-      lineStyle: { width: 3, color: '#35d9ff' },
+      lineStyle: { width: 3, color: '#55e6ff' },
       areaStyle: {
         color: {
           type: 'linear',
@@ -59,18 +66,23 @@ const trendOption = computed<EChartsOption>(() => ({
           x2: 0,
           y2: 1,
           colorStops: [
-            { offset: 0, color: 'rgba(53, 217, 255, 0.38)' },
-            { offset: 1, color: 'rgba(53, 217, 255, 0.02)' },
+            { offset: 0, color: 'rgba(85, 230, 255, 0.36)' },
+            { offset: 1, color: 'rgba(69, 234, 208, 0.03)' },
           ],
         },
       },
-      itemStyle: { color: '#72f6ff' },
+      itemStyle: { color: '#f6d27a' },
     },
   ],
 }))
 
 const pieOption: EChartsOption = {
-  tooltip: { trigger: 'item' },
+  tooltip: {
+    trigger: 'item',
+    backgroundColor: 'rgba(7, 24, 42, 0.94)',
+    borderColor: 'rgba(85, 230, 255, 0.45)',
+    textStyle: { color: '#dffbff' },
+  },
   legend: { bottom: 0, textStyle: { color: '#9dc8dd' } },
   series: [
     {
@@ -82,21 +94,27 @@ const pieOption: EChartsOption = {
       itemStyle: { borderColor: '#071522', borderWidth: 2 },
     },
   ],
-  color: ['#2de2ff', '#4895ff', '#39e6a3', '#f7ce46', '#ff6b8a'],
+  color: ['#55e6ff', '#2f9bff', '#45ead0', '#f6d27a', '#a8a6d9'],
 }
 
 const barOption: EChartsOption = {
   grid: { left: 36, right: 18, top: 20, bottom: 30 },
+  tooltip: {
+    trigger: 'axis',
+    backgroundColor: 'rgba(7, 24, 42, 0.94)',
+    borderColor: 'rgba(85, 230, 255, 0.45)',
+    textStyle: { color: '#dffbff' },
+  },
   xAxis: {
     type: 'category',
     data: efficiencyBars.map((item) => item.name),
-    axisLine: { lineStyle: { color: '#27516c' } },
+    axisLine: { lineStyle: { color: '#2b6381' } },
     axisLabel: { color: '#8fb9cf' },
   },
   yAxis: {
     type: 'value',
     max: 100,
-    splitLine: { lineStyle: { color: 'rgba(77, 164, 207, 0.12)' } },
+    splitLine: { lineStyle: { color: 'rgba(85, 230, 255, 0.12)' } },
     axisLabel: { color: '#8fb9cf' },
   },
   series: [
@@ -113,8 +131,9 @@ const barOption: EChartsOption = {
           x2: 0,
           y2: 1,
           colorStops: [
-            { offset: 0, color: '#7df9ff' },
-            { offset: 1, color: '#2367ff' },
+            { offset: 0, color: '#f6d27a' },
+            { offset: 0.45, color: '#55e6ff' },
+            { offset: 1, color: '#1a6ed1' },
           ],
         },
       },
@@ -140,7 +159,7 @@ onBeforeUnmount(() => {
 
       <section class="screen-grid">
         <aside class="side-column">
-          <PanelBox title="城市核心指标">
+          <PanelBox title="教学核心指标">
             <div class="card-grid two">
               <DataCard
                 v-for="(card, index) in cityCards"
@@ -154,11 +173,11 @@ onBeforeUnmount(() => {
             </div>
           </PanelBox>
 
-          <PanelBox title="近 7 日数据访问趋势">
+          <PanelBox title="近 7 日学习访问趋势">
             <ChartBox :option="trendOption" />
           </PanelBox>
 
-          <PanelBox title="区域告警排行">
+          <PanelBox title="业务告警排行">
             <ol class="rank-list">
               <li v-for="(item, index) in warningRanks" :key="item.name" :class="item.level">
                 <span>{{ String(index + 1).padStart(2, '0') }}</span>
@@ -173,20 +192,9 @@ onBeforeUnmount(() => {
         </aside>
 
         <section class="center-stage">
-          <div class="city-visual">
-            <div class="scan-line"></div>
-            <div class="orbit orbit-one"></div>
-            <div class="orbit orbit-two"></div>
-            <div class="core-ring">
-              <span>城市运行</span>
-              <strong>98.6%</strong>
-              <small>综合健康度</small>
-            </div>
-            <i class="point point-a"></i>
-            <i class="point point-b"></i>
-            <i class="point point-c"></i>
-            <i class="point point-d"></i>
-          </div>
+          <PanelBox class="hub-panel" title="数据中枢">
+            <HubOverviewChart :nodes="hubNodes" />
+          </PanelBox>
 
           <div class="metric-ribbon">
             <DataCard
@@ -202,11 +210,11 @@ onBeforeUnmount(() => {
         </section>
 
         <aside class="side-column">
-          <PanelBox title="设备类型占比">
+          <PanelBox title="资源类型占比">
             <ChartBox :option="pieOption" />
           </PanelBox>
 
-          <PanelBox title="区域处理效率">
+          <PanelBox title="业务处理效率">
             <ChartBox :option="barOption" />
           </PanelBox>
 

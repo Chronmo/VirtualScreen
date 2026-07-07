@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 
 import type { EventItem } from '@/data/mock'
 
@@ -10,17 +10,17 @@ const props = defineProps<{
 const activeEvents = ref<EventItem[]>([])
 let timer: number | undefined
 
-const nextEvent = computed(() => props.events[Math.floor(Math.random() * props.events.length)])
-
 const createTime = () => {
   const date = new Date()
   return date.toLocaleTimeString('zh-CN', { hour12: false })
 }
 
+const pickEvent = () => props.events[Math.floor(Math.random() * props.events.length)]
+
 onMounted(() => {
   activeEvents.value = props.events.slice(0, 5)
   timer = window.setInterval(() => {
-    const event = nextEvent.value
+    const event = pickEvent()
     activeEvents.value = [
       { ...event, time: createTime() },
       ...activeEvents.value.slice(0, 4),

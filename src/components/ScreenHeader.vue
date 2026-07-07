@@ -28,8 +28,8 @@ onBeforeUnmount(() => {
   <header class="screen-header">
     <div class="header-line left-line"></div>
     <div class="title-block">
-      <p class="title-kicker">VirtualScreen</p>
-      <h1>虚拟数据屏 · 城市运行态势中心</h1>
+      <p class="title-kicker">VirtualScreen · 虚拟大屏</p>
+      <h1>如意智能教学数据中心</h1>
       <span>{{ currentTime }}</span>
     </div>
     <div class="header-line right-line"></div>
