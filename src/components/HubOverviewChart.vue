@@ -54,7 +54,7 @@ const option = computed<EChartsOption>(() => {
             data.raw.description,
           ].join('<br/>')
         }
-        return '<strong>如意数据中枢</strong><br/>汇聚教学、实战、资料与告警链路'
+        return '<strong>数据中枢</strong><br/>汇聚教学、实战、资料与告警链路'
       },
     },
     grid: { left: 0, right: 0, top: 0, bottom: 0 },
@@ -148,7 +148,7 @@ const option = computed<EChartsOption>(() => {
         })),
       },
       {
-        name: '如意数据中枢',
+        name: '数据中枢',
         type: 'scatter',
         coordinateSystem: 'cartesian2d',
         z: 8,
@@ -156,7 +156,7 @@ const option = computed<EChartsOption>(() => {
         symbolSize: 112,
         label: {
           show: true,
-          formatter: '如意\n数据中枢',
+          formatter: '数据\n中枢',
           color: '#f5fdff',
           fontSize: 18,
           fontWeight: 700,
@@ -180,7 +180,7 @@ const option = computed<EChartsOption>(() => {
           shadowBlur: 46,
           shadowColor: 'rgba(93, 232, 255, 0.95)',
         },
-        data: [{ name: '如意数据中枢', value: [...centerCoord, 100] }],
+        data: [{ name: '数据中枢', value: [...centerCoord, 100] }],
       },
     ],
   }
