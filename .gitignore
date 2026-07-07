@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.dev-server*.log
+_tmp_*
+*.local
+
+.DS_Store
+Thumbs.db
